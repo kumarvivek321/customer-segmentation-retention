@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Artifacts & Log files
+artifacts/
+*.log
+logs/
+
+# CatBoost & model caches
+catboost_info/
+
+# System & IDE files
+.vscode/
+.DS_Store
+Thumbs.db 
