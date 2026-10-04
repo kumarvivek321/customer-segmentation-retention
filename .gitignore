@@ -22,3 +22,4 @@ catboost_info/
 .DS_Store
 Thumbs.db 
 *.egg-info/
+notebook/data/*.csv
