@@ -22,4 +22,6 @@ catboost_info/
 .DS_Store
 Thumbs.db 
 *.egg-info/
-notebook/data/*.csv
+# Ignore large raw dataset files
+notebook/data/online_retail.csv
+notebook/data/customer_churn_data.csv
