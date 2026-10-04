@@ -49,10 +49,22 @@ def load_all_data():
     base_dir = os.path.dirname(__file__)
     data_dir = os.path.join(base_dir, "notebook", "data")
     
-    # 1. Raw Transactions
+    # 1. Raw Transactions (Supports .csv.gz, .csv, and auto-download fallback)
     raw_path = os.path.join(data_dir, "online_retail.csv")
-    df_raw = pd.read_csv(raw_path, encoding='latin1')
-    df_raw['InvoiceDate'] = pd.to_datetime(df_raw['InvoiceDate'])
+    gz_path = os.path.join(data_dir, "online_retail.csv.gz")
+    
+    if os.path.exists(gz_path):
+        df_raw = pd.read_csv(gz_path, compression='gzip', encoding='latin1')
+    elif os.path.exists(raw_path):
+        df_raw = pd.read_csv(raw_path, encoding='latin1')
+    else:
+        os.makedirs(data_dir, exist_ok=True)
+        url = "https://raw.githubusercontent.com/guipsamora/pandas_exercises/master/07_Visualization/Online_Retail/Online_Retail.csv"
+        import urllib.request
+        with st.spinner("Downloading dataset for first-time cloud initialization..."):
+            urllib.request.urlretrieve(url, raw_path)
+        df_raw = pd.read_csv(raw_path, encoding='latin1')
+    df_raw['InvoiceDate'] = pd.to_datetime(df_raw['InvoiceDate'], format='mixed')
     df_raw['InvoiceNo'] = df_raw['InvoiceNo'].astype(str).str.strip()
     df_raw['StockCode'] = df_raw['StockCode'].astype(str).str.strip()
     df_raw['Description'] = df_raw['Description'].astype(str).str.strip()
